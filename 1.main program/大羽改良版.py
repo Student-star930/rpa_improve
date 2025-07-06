@@ -9,7 +9,7 @@ import os
 #定义鼠标事件
 
 #pyautogui库其他用法 https://blog.csdn.net/qingfengxd1/article/details/108270159
-
+j = 1
 
 
 def mouseClick(clickTimes,lOrR,img,reTry,Checkeep):
@@ -183,6 +183,7 @@ def dataCheck(sheet1):
 #任务
 def mainWork(img):
     i = 1
+    global j
     while i < sheet1.nrows:
         #取本行指令的操作类型
         cmdType = sheet1.row(i)[0]
@@ -254,8 +255,14 @@ def mainWork(img):
         #4代表输入
         elif cmdType.value == 4.0:
             inputValue = sheet1.row(i)[1].value
-            pyperclip.copy(inputValue)
-            pyautogui.hotkey('ctrl','v')
+            if str(inputValue).strip() == "合肥工业大学":
+                pyperclip.copy(inputValue)
+                pyautogui.hotkey('ctrl','v')
+            else:
+                inputValue = sheet1.row(i)[j+1].value
+                pyperclip.copy(inputValue)
+                j += 1
+                pyautogui.hotkey('ctrl','v')
             print("输入:",inputValue) 
             time.sleep(0.5)                                       
         #5代表等待
